@@ -7,9 +7,9 @@ permalink:        pretty
 #relative_permalinks: true
 
 # Setup
-title:            SangDV's Home page
-tagline:          'CV and ML'
-description:      'Blog for CV and ML'
+title:            CV/DL
+tagline:          'CV/DL'
+description:      'A blog for CV/DL'
 url:              http://sangdv.github.io
 baseurl:          /
 
