@@ -1,16 +1,16 @@
 ---
 layout: post
-title: Hello World!
-categories: [general, setup, demo]
-tags: [demo, dbyll, dbtek, setup]
+title: Học sâu và phương pháp huấn luyện mạng nơ-ron
+categories: [deep learning]
+tags: [optimizer, landscape]
 fullview: true
 comments: true
 ---
 
-**dbyll** is minimalist, stylish theme for jekyll. Supports gravatar, account links (github, twitter, e-mail, pinterest, résume file) and a bio.  
+### Học sâu
 
-**dbyll** is brought to you by **[dbtek](http://ismaildemirbilek.com)**. Open sourced under [MIT](http://opensource.org/licenses/MIT) license.
+Học sâu là gì?
 
-### dbyll is on GitHub
+### Huấn luyện mạng nơ-ron
 
-<a class="btn btn-default" href="https://github.com/dbtek/dbyll">Grab your copy now!</a>
+Huấn luyện như thế nào?
