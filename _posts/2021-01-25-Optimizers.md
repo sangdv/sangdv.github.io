@@ -7,10 +7,6 @@ fullview: true
 comments: true
 ---
 
-### Mạng nơ-ron và hàm mục tiêu
-Định lý xấp xỉ tổng quát
-
-
 ### Các giải thuật tối ưu
 Các giải thuật thường chia thành hai loại: bậc nhất và bậc hai
 
