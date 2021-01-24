@@ -7,16 +7,16 @@ highlighter: rouge
 markdown: kramdown
 disqus: cvdl
 google_analytics: cvdl
-title: CV and DL
+title: CV/DL
 
 defaults:
   -
     scope:
       path: "" # empty string for all files
     values:
-      title: CV and DL
+      title: Computer Vision and Deep Learning
 
-description: Stylish Jekyll Theme
+description: Đây là blog về Thị giác máy tính và học sâu
 author:
   name: SangDV
   email: sang.dinhviet@hust.edu.vn
