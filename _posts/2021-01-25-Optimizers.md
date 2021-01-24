@@ -8,6 +8,6 @@ comments: true
 ---
 
 ### Các giải thuật tối ưu
-Các giải thuật thường chia thành hai loại: bậc nhất và bậc hai
+![Các giải thuật tối ưu](https://miro.medium.com/max/775/1*SjtKOauOXFVjWRR7iCtHiA.gif)
 
 ### Các chiến thuật huấn luyện
