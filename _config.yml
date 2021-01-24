@@ -5,26 +5,26 @@ paginate_path: "page:num"
 exclude: ["README.md"] # files to exclude
 highlighter: rouge
 markdown: kramdown
-disqus: dbyll
-google_analytics: dbyll
-title: dbyll
+disqus: cvdl
+google_analytics: cvdl
+title: CV and DL
 
 defaults:
   -
     scope:
       path: "" # empty string for all files
     values:
-      title: dbyll
+      title: CV and DL
 
 description: Stylish Jekyll Theme
 author:
-  name: dbyll
-  email: dbyll@ismaildemirbilek.com
-  github: dbtek
-  twitter: dbtek
-  pinterest: asd123
-  linkedin: asd123
-  bio: Your stylish, minimalist theme!
+  name: SangDV
+  email: sang.dinhviet@hust.edu.vn
+  github: sangdv
+  twitter: sangdv
+  pinterest: sangdv
+  linkedin: sangdv
+  bio: Hanoi University of Science and Technology
   email_md5: 726351295ec82e145928582f595aa3aa
 
 rss_path: feed.xml
