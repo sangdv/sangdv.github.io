@@ -1,21 +1,14 @@
 ---
 layout: post
-title: Các giải thuật tối ưu huấn luyện mạng nơ-ron
+title: Huấn luyện mạng nơ-ron
 categories: [deep learning]
 tags: [optimizer, landscape]
 fullview: true
 comments: true
 ---
 
-### Mạng nơ-ron và hàm mục tiêu
-Định lý xấp xỉ tổng quát
+## Mạng nơ-ron và hàm mục tiêu
 
-Sâu hay rộng?
+## Các giải thuật tối ưu
 
-Trực quan hóa hàm mục tiêu
-
-### Các giải thuật tối ưu
-
-First-order 
-
-Second-order
+## Các chiến thuật huấn luyện
