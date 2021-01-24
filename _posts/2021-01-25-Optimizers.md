@@ -1,16 +1,17 @@
 ---
 layout: post
-title: Học sâu và phương pháp huấn luyện mạng nơ-ron
+title: Các giải thuật tối ưu huấn luyện mạng nơ-ron
 categories: [deep learning]
 tags: [optimizer, landscape]
 fullview: true
 comments: true
 ---
 
-### Học sâu
+### Mạng nơ-ron và hàm mục tiêu
+Định lý xấp xỉ tổng quát
+Sâu hay rộng?
+Trực quan hóa hàm mục tiêu
 
-Học sâu là gì?
-
-### Huấn luyện mạng nơ-ron
-
-Huấn luyện như thế nào?
+### Các giải thuật tối ưu
+First-order 
+Second-order
