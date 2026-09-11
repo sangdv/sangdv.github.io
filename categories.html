@@ -1,51 +1,42 @@
 ---
-layout: page
-title: Categories
-header: Posts By Category
-group: navigation
+layout: default
+title: Chủ đề
+description: Toàn bộ bài viết được sắp xếp theo chủ đề.
 ---
 
-<div class="col-sm-3 col-xs-6">
-    <ul class="nav nav-tabs-vertical cat-tag-menu">
-      {% assign categories_list = site.categories %}
-      {% if categories_list.first[0] == null %}
-        {% for category in categories_list %}
-            <li>
-                <a href="#{{ category | replace:' ','-' }}-ref">
-                  {{ category | capitalize }} <span class="badge pull-right">{{ site.categories[category].size }}</span>
-               </a>
-            </li>
-        {% endfor %}
-      {% else %}
-        {% for category in categories_list %}
-            <li>
-                <a href="#{{ category[0] | replace:' ','-' }}-ref">
-                    {{ category[0] | capitalize }} <span class="badge pull-right">{{ category[1].size }}</span>
-                </a>
-            </li>
-        {% endfor %}
-      {% endif %}
-      {% assign categories_list = nil %}
-    </ul>
-</div>
-<!-- Tab panes -->
-<div class="tab-content col-sm-9 col-xs-6">
-  {% for category in site.categories %}
-    <div class="tab-pane" id="{{ category[0] | replace:' ','-' }}-ref">
-      <h2 style="margin-top: 0px">Posts in {{ category[0] | capitalize }}</h2>
-      <ul class="list-unstyled">
-        {% assign pages_list = category[1] %}
-        {% for node in pages_list %}
-          {% if node.title != null %}
-            {% if group == null or group == node.group %}
-              <li style="line-height: 35px;"><a href="{{ site.BASE_PATH }}{{node.url}}">{{node.title}}</a> <span class="text-muted">- {{ node.date | date: "%B %d, %Y" }}</span></li>
-            {% endif %}
-          {% endif %}
-        {% endfor %}
-        {% assign pages_list = nil %}
-      </ul>
-    </div>
-  {% endfor %}
-</div>
+<div class="wrap">
+  <div class="page-head">
+    <h1>Chủ đề</h1>
+    <p class="lede">Chọn một chủ đề để xem các bài viết liên quan.</p>
+  </div>
 
-<div class="clearfix"></div>
+  <div class="chip-row" style="justify-content:flex-start;margin:28px 0 44px">
+    <button class="chip" type="button" data-filter="all" aria-selected="true">Tất cả <span class="count">{{ site.posts.size }}</span></button>
+    {%- for category in site.categories %}
+    <button class="chip" type="button" data-filter="{{ category[0] | replace: ' ', '-' }}">
+      {{ category[0] }} <span class="count">{{ category[1].size }}</span>
+    </button>
+    {%- endfor %}
+  </div>
+
+  <div class="section" style="padding-top:0">
+    {%- for category in site.categories %}
+    <section class="group" id="{{ category[0] | replace: ' ', '-' }}" data-group="{{ category[0] | replace: ' ', '-' }}">
+      <h2>{{ category[0] }}</h2>
+      <p class="count-label">{{ category[1].size }} bài viết</p>
+      <ul class="post-list">
+        {%- for post in category[1] %}
+        <li>
+          <a class="row" href="{{ site.BASE_PATH }}{{ post.url }}">
+            <span class="t">{{ post.title }}</span>
+            <span class="d">{% include date.html date=post.date %}</span>
+          </a>
+        </li>
+        {%- endfor %}
+      </ul>
+    </section>
+    {%- else %}
+    <p class="empty">Chưa có bài viết nào.</p>
+    {%- endfor %}
+  </div>
+</div>

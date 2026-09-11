@@ -1,0 +1,41 @@
+{%- assign post = include.post -%}
+{%- assign cover_index = post.title | size | modulo: 5 -%}
+{%- if post.description -%}
+  {%- assign summary = post.description -%}
+{%- else -%}
+  {%- assign summary = post.content | strip_html | normalize_whitespace | truncatewords: 26 -%}
+{%- endif -%}
+{%- assign minutes = post.content | number_of_words | divided_by: 200 | plus: 1 -%}
+
+{%- if include.featured -%}
+<article class="featured">
+  <div class="card-body">
+    <div class="meta" style="margin-bottom:14px">
+      {%- if post.categories.first %}<span class="kicker">{{ post.categories.first }}</span><span class="dot">·</span>{% endif -%}
+      <span>{% include date.html date=post.date %}</span>
+      <span class="dot">·</span><span>{{ minutes }} phút đọc</span>
+    </div>
+    <h2><a href="{{ site.BASE_PATH }}{{ post.url }}">{{ post.title }}</a></h2>
+    <p>{{ summary }}</p>
+    <div><a class="link-more" href="{{ site.BASE_PATH }}{{ post.url }}">Đọc bài viết</a></div>
+  </div>
+  <a class="card-media" href="{{ site.BASE_PATH }}{{ post.url }}" aria-hidden="true" tabindex="-1">
+    {%- if post.image %}<img src="{{ post.image }}" alt="">{% else %}<span class="cover cover-{{ cover_index }}"></span>{% endif -%}
+  </a>
+</article>
+{%- else -%}
+<article class="card">
+  <a class="card-media" href="{{ site.BASE_PATH }}{{ post.url }}" aria-hidden="true" tabindex="-1">
+    {%- if post.image %}<img src="{{ post.image }}" alt="">{% else %}<span class="cover cover-{{ cover_index }}"></span>{% endif -%}
+  </a>
+  <div class="card-body">
+    <h3><a href="{{ site.BASE_PATH }}{{ post.url }}">{{ post.title }}</a></h3>
+    <p>{{ summary }}</p>
+    <div class="meta">
+      {%- if post.categories.first %}<span class="kicker">{{ post.categories.first }}</span><span class="dot">·</span>{% endif -%}
+      <span>{% include date.html date=post.date %}</span>
+      <span class="dot">·</span><span>{{ minutes }} phút đọc</span>
+    </div>
+  </div>
+</article>
+{%- endif -%}

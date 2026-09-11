@@ -1,38 +1,39 @@
-# visit https://github.com/mojombo/jekyll/wiki/Configuration for more settings
+# Cấu hình Jekyll — https://jekyllrb.com/docs/configuration/
 
-paginate: 10 # pagination based on number of posts
-paginate_path: "page:num"
-exclude: ["README.md"] # files to exclude
-highlighter: rouge
-markdown: kramdown
-disqus: cvdl
-google_analytics: cvdl
 title: CV/DL
+description: Blog về thị giác máy tính, học sâu và công nghệ
+url: https://sangdv.github.io
+lang: vi
+
+paginate: 9
+paginate_path: "page:num"
+excerpt_separator: "<!--more-->"
+
+markdown: kramdown
+highlighter: rouge
+exclude: ["README.md", "Gemfile", "Gemfile.lock", "LICENSE"]
+
+disqus: cvdl
+# Điền mã đo lường GA4 (dạng G-XXXXXXX) để bật Google Analytics
+google_analytics:
 
 defaults:
-  -
-    scope:
-      path: "" # empty string for all files
+  - scope:
+      path: ""
+      type: "posts"
     values:
-      title: Computer Vision and Deep Learning
+      layout: post
+      comments: true
 
-description: Đây là blog về Thị giác máy tính và học sâu
 author:
   name: SangDV
   email: sang.dinhviet@hust.edu.vn
   github: sangdv
-  twitter: sangdv
-  pinterest: sangdv
-  linkedin: sangdv
   bio: Hanoi University of Science and Technology
-  email_md5: 726351295ec82e145928582f595aa3aa
 
 rss_path: feed.xml
 categories_path: categories.html
 tags_path: tags.html
-
-# set it as url of an image
-# sidebar_background_image: https://www.dropbox.com/s/g9h23zrycedxtk5/sky.png?raw=1
 
 BASE_PATH:
 

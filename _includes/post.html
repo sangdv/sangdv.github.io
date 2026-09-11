@@ -1,123 +1,74 @@
-<div class="page-header">
-  <h1>{{ page.title }} {% if page.tagline %}<small>{{page.tagline}}</small>{% endif %}</h1>
-</div>
-	
-<article>
+{%- assign minutes = content | number_of_words | divided_by: 200 | plus: 1 -%}
 
-	<div class="col-sm-10">
-	 <span class="post-date">
-	   {% assign d = page.date | date: "%d" | plus:'0' %}
-	   {{ page.date | date: "%B" }} 
-	   {% case d %}
-	     {% when 1 or 21 or 31 %}{{ d }}st,
-	     {% when 2 or 22 %}{{ d }}nd,
-	     {% when 3 or 23 %}{{ d }}rd,
-	     {% else %}{{ d }}th,
-	   {% endcase %}
-	   {{ page.date | date: "%Y" }}
-	 </span>
-	  <div class="article_body">
-	  {{ content }}
-	  </div>
+<div class="progress" aria-hidden="true"></div>
 
-		{% unless page.categories == empty %}
-		<ul class="tag_box list-unstyled list-inline">
-		  <li><i class="fa fa-folder-open"></i></li>
-		  {% assign categories_list = page.categories %}
-		  {% if categories_list.first[0] == null %}
-			{% for category in categories_list %} 
-				<li><a href="{{ site.BASE_PATH }}/{{ site.categories_path }}#{{ category }}-ref">
-					{{ category | join: "/" }} <span>({{ site.categories[category].size }})</span>
-					{% unless forloop.last %},{% endunless %}
-				</a></li>
-			{% endfor %}
-		  {% else %}
-			{% for category in categories_list %} 
-				<li><a href="{{ site.BASE_PATH }}/{{ site.categories_path }}#{{ category[0] }}-ref">
-					{{ category[0] | join: "/" }} <span>/{{ category[1].size }})</span>
-				</a></li>
-			{% endfor %}
-		  {% endif %}
-		</ul>
-		{% endunless %}  
-
-		{% unless page.tags == empty %}
-		<ul class="list-inline">
-		  <li><i class="fa fa-tags"></i></li>
-		  {% assign tags_list = page.tags %}
-		  {% if tags_list.first[0] == null %}
-			{% for tag in tags_list %} 
-				<li>
-					<a href="{{ site.BASE_PATH }}/{{ site.tags_path }}#{{ tag }}-ref">
-					{{ tag }} <span>({{ site.tags[tag].size }})</span>
-					{% unless forloop.last %},{% endunless %}
-					</a>
-				</li>
-			{% endfor %}
-		  {% else %}
-			{% for tag in tags_list %} 
-				<li>
-					<a href="{{ site.BASE_PATH }}/{{ site.tags_path }}#{{ tag[0] }}-ref">
-						{{ tag[0] }} <span>({{ tag[1].size }})</span>
-						{% unless forloop.last %},{% endunless %}
-					</a>
-				</li>
-		   	
-			{% endfor %}
-		  {% endif %}
-		  {% assign tags_list = nil %}
-		</ul>
-		{% endunless %}  
-
-		<hr>
-
-		<div>
-      <section class="share col-sm-6">
-        <h4 class="section-title">Share Post</h4>
-<!--         <a class="btn btn-default btn-sm twitter" href="http://twitter.com/share?text={{page.title | encode}}{% if site.author.twitter%}&via={{site.author.twitter}}{% endif %}"
-           onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
-          <i class="fa fa-twitter fa-lg"></i>
-          Twitter
-        </a> -->
-        <a class="btn btn-default btn-sm facebook" href="https://www.facebook.com/sharer/sharer.php"
-           onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
-          <i class="fa fa-facebook fa-lg"></i>
-          Facebook
-        </a>
-        <a class="btn btn-default btn-sm gplus"
-           onclick="window.open('https://plus.google.com/share?url='+window.location.href, 'google-plus-share', 'width=490,height=530');return false;">
-          <i class="fa fa-google-plus fa-lg"></i>
-          Google+
-        </a>
-      </section>
-
-      <section class="col-sm-6 author">
-        <img src="https://users.soict.hust.edu.vn/sangdv/Style/sangdv1.jpg" width="60" class="img-rounded author-image" />
-        <h4 class="section-title author-name">{{site.author.name}}</h4>
-        <p class="author-bio">{{site.author.bio}}</p>
-      </section>
+<article class="wrap">
+  <header class="article-header">
+    <div class="meta">
+      {%- if page.categories.first -%}
+      <a class="kicker" href="{{ site.BASE_PATH }}/{{ site.categories_path }}#{{ page.categories.first | replace: ' ', '-' }}">{{ page.categories.first }}</a>
+      <span class="dot">·</span>
+      {%- endif -%}
+      <span>{% include date.html date=page.date %}</span>
+      <span class="dot">·</span>
+      <span>{{ minutes }} phút đọc</span>
     </div>
 
-    <div class="clearfix"></div>
+    <h1>{{ page.title }}</h1>
 
-		<ul class="pager">
-		  {% if page.previous %}
-		  <li class="previous"><a href="{{ site.BASE_PATH }}{{ page.previous.url }}" title="{{ page.previous.title }}">&larr; Previous</a></li>
-		  {% else %}
-		  <li class="previous disabled"><a>&larr; Previous</a></li>
-		  {% endif %}
-		  {% if page.next %}
-		  <li class="next"><a href="{{ site.BASE_PATH }}{{ page.next.url }}" title="{{ page.next.title }}">Next &rarr;</a></li>
-		  {% else %}
-			<li class="next disabled"><a>Next &rarr;</a>
-		  {% endif %}
-		</ul>
+    {%- if page.tagline or page.description %}
+    <p class="lede">{{ page.tagline | default: page.description }}</p>
+    {%- endif %}
+  </header>
 
-		<hr>
-	</div>
-	
-	<div class="col-sm-2 sidebar-2">
-	
-	</div>
+  {%- if page.image and page.hero %}
+  <figure class="article-cover">
+    <img src="{{ page.image }}" alt="{{ page.image_alt | default: page.title }}">
+  </figure>
+  {%- endif %}
+
+  <div class="prose">
+    {{ content }}
+  </div>
+
+  <footer class="article-footer">
+    {%- unless page.tags == empty %}
+    <div class="tag-row">
+      {%- for tag in page.tags %}
+      <a class="chip" href="{{ site.BASE_PATH }}/{{ site.tags_path }}#{{ tag | replace: ' ', '-' }}">{{ tag }}</a>
+      {%- endfor %}
+    </div>
+    {%- endunless %}
+
+    <div class="author-card">
+      <img src="{{ site.BASE_PATH }}/imgs/sangdv1.jpg" alt="{{ site.author.name }}">
+      <div>
+        <p class="name">{{ site.author.name }}</p>
+        <p class="bio">{{ site.author.bio }}</p>
+      </div>
+    </div>
+
+    <div class="share">
+      <span class="label">Chia sẻ</span>
+      <a class="chip" target="_blank" rel="noopener"
+         href="https://www.facebook.com/sharer/sharer.php?u={{ page.url | prepend: site.url | uri_escape }}">Facebook</a>
+      <a class="chip" target="_blank" rel="noopener"
+         href="https://twitter.com/intent/tweet?text={{ page.title | uri_escape }}&url={{ page.url | prepend: site.url | uri_escape }}">X</a>
+      <button class="chip" type="button" data-action="copy-link" data-done="Đã sao chép">Sao chép liên kết</button>
+    </div>
+
+    <nav class="post-nav">
+      {%- if page.previous %}
+      <a class="prev" href="{{ site.BASE_PATH }}{{ page.previous.url }}">
+        <span class="dir">← Bài trước</span><span class="t">{{ page.previous.title }}</span>
+      </a>
+      {%- else %}<span></span>{% endif %}
+
+      {%- if page.next %}
+      <a class="next" href="{{ site.BASE_PATH }}{{ page.next.url }}">
+        <span class="dir">Bài sau →</span><span class="t">{{ page.next.title }}</span>
+      </a>
+      {%- else %}<span></span>{% endif %}
+    </nav>
+  </footer>
 </article>
-<div class="clearfix"></div>

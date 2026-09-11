@@ -1,5 +1,9 @@
-<div class="page-header">
-  <h1>{{ page.title }} {% if page.tagline %} <small>{{ page.tagline }}</small>{% endif %}</h1>
+<div class="wrap">
+  <div class="page-head">
+    <h1>{{ page.title }}</h1>
+    {% if page.tagline or page.description %}<p class="lede">{{ page.tagline | default: page.description }}</p>{% endif %}
+  </div>
+  <div class="prose" style="margin:36px 0 0">
+    {{ content }}
+  </div>
 </div>
-
-{{ content }}

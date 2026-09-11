@@ -3,8 +3,9 @@ layout: post
 title: Giới thiệu học sâu
 categories: [deep learning]
 tags: [universal approximation theorem, loss landscape]
-fullview: true
 comments: true
+description: Mạng nơ-ron là gì, vì sao nó xấp xỉ được gần như mọi hàm số, và bề mặt hàm mục tiêu trông ra sao.
+image: https://www.cs.umd.edu/~tomg/img/landscapes/noshort.png
 ---
 
 ### Mạng nơ-ron

@@ -1,8 +1,10 @@
 source 'https://rubygems.org'
-gem 'jekyll'
+
+# GitHub Pages hiện chạy Jekyll 3.9.x
+gem 'jekyll', '~> 3.9'
 
 group :jekyll_plugins do
-  gem "jekyll-paginate"
-  gem "pygments.rb"
+  gem 'jekyll-paginate'
 end
 
+gem 'kramdown-parser-gfm'

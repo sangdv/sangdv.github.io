@@ -1,37 +1,58 @@
-dbyll
-=====
+# CV/DL — blog Jekyll
 
-Open source stylish, minimalistic theme for jekyll.  
-Demo: http://dbtek.github.io/dbyll/
+Blog về thị giác máy tính, học sâu và công nghệ, viết cho người đọc phổ thông.
+Giao diện tự viết, tối giản theo phong cách Apple: không Bootstrap, không jQuery,
+không icon font — chỉ HTML, CSS và một tệp JavaScript nhỏ.
 
-## New
-- Dbyll for Ghost is now available. Get it [here](https://github.com/dbtek/dbyll-ghost) now.
-- :new: Check out [Paper](https://github.com/dbtek/paper), new Material Design Jekyll theme.
+## Chạy thử trên máy
 
-### Features
-- Responsive layout.
-- Supports tags and categories.
-- Social profile and bio of author.
-- Bootstrap based.
-- Glyphicon and Font-Awesome Icons.
-- Pagination.
-- Syntax highlighting with pygments.
-- Disqus comments.
-- :new: Custom sidebar background image.
+```bash
+bundle install
+bundle exec jekyll serve
+```
 
+Mở http://localhost:4000.
 
-### Download
-* [Download dbyll](https://github.com/dbtek/dbyll/archive/master.zip)
+## Viết bài mới
 
-### Install
-- You need to have [ruby](https://www.ruby-lang.org/en/documentation/installation/) installed in your system.
-- Install bundler which helps in specifying and installing dependencies of any Ruby project. ```gem install bundler```
-- Go to the root of the repo and run this - ```bundle install```
-- Then - ```bundle exec jekyll serve```
+Tạo tệp `_posts/YYYY-MM-DD-ten-bai.md`:
 
-### Screenshots
-![dbyll-screenshot](assets/media/dbyll-ss.png)
+```markdown
+---
+title: Tên bài viết
+categories: [deep learning]
+tags: [optimizer, landscape]
+description: Một câu tóm tắt — hiện trên thẻ bài viết, thẻ chia sẻ và kết quả tìm kiếm.
+image: https://.../anh-bia.png   # tuỳ chọn: ảnh thẻ bài viết + ảnh khi chia sẻ
+hero: true                        # tuỳ chọn: hiện luôn ảnh đó ở đầu bài
+---
 
-### License
-- [MIT](http://opensource.org/licenses/MIT)
+Nội dung bài viết...
+```
 
+- `layout: post` và `comments: true` đã là mặc định trong `_config.yml`, không cần khai báo lại.
+- Không có `description` thì trang tự cắt 26 từ đầu bài làm tóm tắt.
+- Không có `image` thì thẻ bài viết dùng một dải màu dịu, chọn tự động theo tên bài.
+
+## Cấu trúc giao diện
+
+| Tệp | Vai trò |
+| --- | --- |
+| `_layouts/default.html` | Khung trang: thẻ meta, header kính mờ, footer, script |
+| `_includes/post.html` | Trang bài viết: tiêu đề, thời gian đọc, thẻ, chia sẻ, bài trước/sau |
+| `_includes/postcard.html` | Thẻ bài viết dùng ở trang chủ |
+| `_includes/date.html` | Định dạng ngày tiếng Việt |
+| `assets/css/style.css` | Toàn bộ giao diện, biến màu ở đầu tệp |
+| `assets/css/syntax.css` | Màu cho khối mã (Rouge) |
+| `assets/js/app.js` | Chế độ sáng/tối, menu mobile, thanh tiến độ đọc, lọc chủ đề |
+
+Muốn đổi tông màu: sửa các biến `--accent`, `--bg`, `--text`… ở đầu `assets/css/style.css`.
+Giao diện tự đổi sáng/tối theo hệ điều hành, người đọc bấm nút trên thanh điều hướng để chọn thủ công.
+
+## Bật Google Analytics
+
+Điền mã đo lường GA4 (dạng `G-XXXXXXX`) vào `google_analytics` trong `_config.yml`.
+
+## Giấy phép
+
+[MIT](LICENSE). Giao diện gốc trước đây là [dbyll](https://github.com/dbtek/dbyll).

@@ -1,18 +1,121 @@
----
-theme :
-  name : dbyll
----
-{% include default.html %}
+<!DOCTYPE html>
+<html lang="vi" prefix="og: https://ogp.me/ns#">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
-{% if site.google_analytics %}
-<!-- Asynchronous Google Analytics snippet -->
+{%- if page.title and page.title != site.title -%}
+  {%- assign page_title = page.title | append: " — " | append: site.title -%}
+{%- else -%}
+  {%- assign page_title = site.title | append: " — " | append: site.description -%}
+{%- endif -%}
+{%- assign page_desc = page.description | default: site.description -%}
+{%- assign canonical = page.url | replace: 'index.html', '' | prepend: site.url -%}
+
+<title>{{ page_title }}</title>
+<meta name="description" content="{{ page_desc | strip_html | truncate: 180 }}">
+<meta name="author" content="{{ site.author.name }}">
+<link rel="canonical" href="{{ canonical }}">
+
+<meta property="og:type" content="{% if page.layout == 'post' %}article{% else %}website{% endif %}">
+<meta property="og:site_name" content="{{ site.title }}">
+<meta property="og:title" content="{{ page.title | default: site.title }}">
+<meta property="og:description" content="{{ page_desc | strip_html | truncate: 180 }}">
+<meta property="og:url" content="{{ canonical }}">
+<meta property="og:locale" content="vi_VN">
+{%- if page.image %}
+<meta property="og:image" content="{{ page.image }}">
+{%- endif %}
+<meta name="twitter:card" content="{% if page.image %}summary_large_image{% else %}summary{% endif %}">
+
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+
+<link rel="icon" href="{{ site.BASE_PATH }}/assets/ico/favicon.png">
+<link rel="apple-touch-icon" href="{{ site.BASE_PATH }}/assets/ico/apple-touch-icon-144-precomposed.png">
+<link rel="alternate" type="application/rss+xml" title="{{ site.title }}" href="{{ site.BASE_PATH }}/{{ site.rss_path }}">
+
+<link rel="stylesheet" href="{{ site.BASE_PATH }}/assets/css/style.css">
+<link rel="stylesheet" href="{{ site.BASE_PATH }}/assets/css/syntax.css">
+
 <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-  ga('create', '{{ site.google_analytics }}', 'auto');
-  ga('send', 'pageview');
+  // Đặt chế độ sáng/tối ngay lập tức để tránh nhấp nháy khi tải trang
+  (function () {
+    try {
+      var t = localStorage.getItem('theme');
+      if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+    } catch (e) {}
+  })();
 </script>
-{% endif %}
+</head>
+
+<body>
+<a class="skip-link" href="#main">Bỏ qua, tới nội dung chính</a>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="{{ site.BASE_PATH }}/">
+      <img class="brand-mark" src="{{ site.BASE_PATH }}/imgs/sangdv1.jpg" alt="">
+      <span>{{ site.title }}</span>
+    </a>
+
+    <button class="icon-btn nav-toggle" type="button" data-action="toggle-nav"
+            aria-controls="site-nav" aria-expanded="false" aria-label="Mở menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round">
+        <path d="M3 7h18M3 12h18M3 17h18"/>
+      </svg>
+    </button>
+
+    <nav class="nav" id="site-nav" data-open="false">
+      <a href="{{ site.BASE_PATH }}/"{% if page.url == '/' %} aria-current="page"{% endif %}>Trang chủ</a>
+      <a href="{{ site.BASE_PATH }}/{{ site.categories_path }}"{% if page.url contains 'categories' %} aria-current="page"{% endif %}>Chủ đề</a>
+      <a href="{{ site.BASE_PATH }}/{{ site.tags_path }}"{% if page.url contains 'tags' %} aria-current="page"{% endif %}>Thẻ</a>
+      <a href="{{ site.BASE_PATH }}/about.html"{% if page.url contains 'about' %} aria-current="page"{% endif %}>Giới thiệu</a>
+      <button class="icon-btn theme-toggle" type="button" data-action="toggle-theme" aria-label="Đổi chế độ sáng/tối">
+        <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round">
+          <circle cx="12" cy="12" r="4.2"/>
+          <path d="M12 2.6v2.2M12 19.2v2.2M21.4 12h-2.2M5 12H2.8M18.6 5.4l-1.6 1.6M7 17l-1.6 1.6M18.6 18.6 17 17M7 7 5.4 5.4"/>
+        </svg>
+        <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20.5 14.6A8.6 8.6 0 0 1 9.4 3.5a8.6 8.6 0 1 0 11.1 11.1Z"/>
+        </svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  {{ content }}
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <strong style="color:var(--text-2)">{{ site.title }}</strong> — {{ site.description }}
+      </div>
+      <div class="links">
+        <a href="{{ site.BASE_PATH }}/{{ site.categories_path }}">Chủ đề</a>
+        <a href="{{ site.BASE_PATH }}/{{ site.tags_path }}">Thẻ</a>
+        <a href="{{ site.BASE_PATH }}/{{ site.rss_path }}">RSS</a>
+        <a href="mailto:{{ site.author.email }}">Liên hệ</a>
+      </div>
+    </div>
+    <p class="legal">
+      © {{ site.time | date: '%Y' }} {{ site.author.name }} · {{ site.author.bio }}
+    </p>
+  </div>
+</footer>
+
+<script src="{{ site.BASE_PATH }}/assets/js/app.js" defer></script>
+{%- if site.google_analytics and site.google_analytics != 'cvdl' %}
+<script async src="https://www.googletagmanager.com/gtag/js?id={{ site.google_analytics }}"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+  gtag('js', new Date());
+  gtag('config', '{{ site.google_analytics }}');
+</script>
+{%- endif %}
+</body>
+</html>
