@@ -1,0 +1,197 @@
+/* Bài "Trực thăng và bản đồ" — thiết kế riêng, thu gọn trong .tao-article
+   Bảng màu giấy/mực của bài được ánh xạ sang hai chế độ sáng và tối của site. */
+
+.tao-article {
+  --paper:  #e8ede4;
+  --paper2: #dae2d3;
+  --figbg:  #eef2ea;
+  --ink:    #1d3528;
+  --muted:  #4b5e52;
+  --contour:#aebba6;
+  --blaze:  #efb00f;
+  --cobalt: #2f55b0;
+  --rule:   rgba(29, 53, 40, .18);
+  --ink-hover: #2a4a38;
+
+  /* thoát khỏi cột chữ 700px của .prose để dùng hết bề ngang trang */
+  width: min(1040px, calc(100vw - 44px));
+  margin-left: 50%;
+  transform: translateX(-50%);
+  color: var(--ink);
+}
+
+[data-theme="dark"] .tao-article {
+  --paper:  #141a16;
+  --paper2: #1a211c;
+  --figbg:  #182019;
+  --ink:    #e6ede7;
+  --muted:  #9fb0a4;
+  --contour:#44554a;
+  --blaze:  #f0b429;
+  --cobalt: #7aa2f7;
+  --rule:   rgba(230, 237, 231, .2);
+  --ink-hover: #cfdad1;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .tao-article {
+    --paper:  #141a16;
+    --paper2: #1a211c;
+    --figbg:  #182019;
+    --ink:    #e6ede7;
+    --muted:  #9fb0a4;
+    --contour:#44554a;
+    --blaze:  #f0b429;
+    --cobalt: #7aa2f7;
+    --rule:   rgba(230, 237, 231, .2);
+    --ink-hover: #cfdad1;
+  }
+}
+
+/* --- chữ --------------------------------------------------------------- */
+.tao-article .col { max-width: 680px; }
+.prose .tao-article h2 {
+  font-weight: 700; font-size: clamp(26px, 3.2vw, 36px); line-height: 1.15;
+  letter-spacing: -.02em; margin: 0 0 18px; max-width: 22ch; color: var(--ink);
+}
+.prose .tao-article h3 { font-weight: 600; font-size: 21px; line-height: 1.3; margin: 0 0 12px; color: var(--ink); }
+.tao-article p { margin: 0 0 16px; color: var(--ink); font-size: 17.5px; line-height: 1.7; }
+.tao-article a { color: var(--cobalt); border-bottom-color: currentColor; }
+.tao-article .lede { font-size: clamp(17px, 2vw, 20px); color: var(--muted); max-width: 62ch; }
+.tao-article .pull {
+  font-size: clamp(20px, 2.5vw, 26px); line-height: 1.4; font-style: italic;
+  margin: 28px 0 8px; max-width: 30ch;
+}
+
+/* --- bản đồ ------------------------------------------------------------ */
+.tao-article .mapfig {
+  margin: 0 0 8px; border: 1.5px solid var(--ink); border-radius: 10px;
+  background: var(--figbg); overflow: hidden;
+}
+.tao-article .mapfig svg { display: block; width: 100%; height: auto; }
+.tao-article .mapbar {
+  display: flex; flex-wrap: wrap; gap: 12px 28px; align-items: center;
+  justify-content: space-between; padding: 16px 18px;
+  border-top: 1.5px solid var(--ink); background: var(--paper);
+}
+.tao-article .btns { display: flex; gap: 10px; flex-wrap: wrap; }
+.tao-article .btn {
+  font: inherit; font-size: 15px; font-weight: 600; padding: 10px 18px;
+  border: 2px solid var(--ink); background: transparent; color: var(--ink);
+  border-radius: 980px; cursor: pointer;
+}
+.tao-article .btn-heli { border-color: var(--cobalt); color: var(--cobalt); }
+.tao-article .btn-heli:hover { background: color-mix(in srgb, var(--cobalt) 12%, transparent); }
+.tao-article .btn-hike { background: var(--ink); color: var(--paper); }
+.tao-article .btn-hike:hover { background: var(--ink-hover); }
+.tao-article .btn-reset {
+  border-color: transparent; font-weight: 500; text-decoration: underline;
+  text-underline-offset: 3px; padding: 10px 8px;
+}
+.tao-article .stats { display: flex; gap: 22px; flex-wrap: wrap; font-size: 15px; line-height: 1.35; }
+.tao-article .stats div span { display: block; color: var(--muted); font-size: 13px; }
+.tao-article .stats b { font-weight: 700; }
+.tao-article .msg { min-height: 1.7em; margin: 14px 0 0; font-size: 16.5px; color: var(--muted); }
+
+/* --- đường mòn --------------------------------------------------------- */
+.tao-article .trail { position: relative; padding-left: 76px; margin-top: 48px; }
+.tao-article .trail::before {
+  content: ""; position: absolute; left: 24px; top: 40px; bottom: 40px;
+  border-left: 3px dashed var(--contour);
+}
+.tao-article .stop { position: relative; padding: 48px 0; }
+.tao-article .stop::before {
+  content: ""; position: absolute; left: -61px; top: 58px; width: 18px; height: 30px;
+  background: var(--blaze); border: 2px solid var(--ink);
+}
+
+/* --- hai câu hỏi ------------------------------------------------------- */
+.tao-article .qpair { display: grid; grid-template-columns: 1fr auto 1fr; gap: 18px; align-items: center; margin: 28px 0; }
+.tao-article .q {
+  margin: 0; font-size: clamp(19px, 2.3vw, 25px); font-weight: 700; line-height: 1.3;
+  padding: 6px 0 6px 18px; border-left: 6px solid;
+}
+.tao-article .q small { display: block; font-size: 14px; font-weight: 500; color: var(--muted); margin-top: 4px; }
+.tao-article .q-ans { border-color: var(--cobalt); color: var(--cobalt); }
+.tao-article .q-ins { border-color: var(--ink); }
+.tao-article .vs { font-size: 15px; color: var(--muted); }
+
+/* --- hình, khung quy tắc ----------------------------------------------- */
+.tao-article figure { margin: 24px 0; }
+.tao-article figure svg { display: block; width: 100%; height: auto; }
+.tao-article figcaption { font-size: 15px; color: var(--muted); margin-top: 8px; }
+.tao-article .rule {
+  margin: 26px 0 0; padding: 18px 20px; border: 2px solid var(--ink);
+  border-radius: 10px; background: var(--figbg);
+}
+.tao-article .rule strong { font-weight: 700; }
+
+/* --- hai loại ma sát ---------------------------------------------------- */
+.tao-article .friction {
+  display: grid; grid-template-columns: 1fr 1fr; margin: 26px 0;
+  border: 1.5px solid var(--ink); border-radius: 10px; overflow: hidden;
+}
+.tao-article .friction > div { padding: 20px 22px; }
+.tao-article .friction > div + div { border-left: 1.5px solid var(--ink); background: var(--figbg); }
+.prose .tao-article .friction h3 { font-size: 17.5px; margin-bottom: 8px; }
+.tao-article .friction ul { margin: 0; padding-left: 20px; }
+.tao-article .friction li { margin: 4px 0; }
+.tao-article .friction .note { font-size: 15px; color: var(--muted); margin: 12px 0 0; }
+
+/* --- các chấm ---------------------------------------------------------- */
+.tao-article .dots-wrap { display: grid; grid-template-columns: 1fr 1.6fr; gap: 28px; margin: 26px 0; align-items: start; }
+.prose .tao-article .dots-wrap h3 { font-size: 16.5px; font-weight: 500; color: var(--muted); margin-bottom: 12px; line-height: 1.45; }
+.tao-article .dots { display: grid; grid-template-columns: repeat(10, 16px); gap: 6px; }
+.tao-article .d { width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--ink); background: transparent; }
+.tao-article .d.f { background: var(--ink); }
+.tao-article .legend { display: flex; gap: 22px; flex-wrap: wrap; font-size: 15px; color: var(--muted); }
+.tao-article .legend span { display: inline-flex; align-items: center; gap: 8px; }
+.tao-article .legend .d { display: inline-block; width: 13px; height: 13px; }
+
+/* --- thang tự động hoá -------------------------------------------------- */
+.tao-article .scale { margin: 26px 0 8px; }
+.tao-article .scale-bar {
+  display: grid; grid-template-columns: 14fr 72fr 14fr; height: 46px;
+  border: 1.5px solid var(--ink); border-radius: 8px; overflow: hidden;
+}
+.tao-article .scale-bar div {
+  display: flex; align-items: center; justify-content: center; font-size: 14px;
+  font-weight: 500; padding: 0 6px; text-align: center; line-height: 1.2;
+}
+.tao-article .s-none { background: repeating-linear-gradient(135deg, transparent 0 6px, var(--rule) 6px 8px); }
+.tao-article .s-good { background: var(--ink); color: var(--paper); }
+.tao-article .s-all  { background: var(--cobalt); color: #fff; }
+.tao-article .scale-ends { display: flex; justify-content: space-between; font-size: 14px; color: var(--muted); margin-top: 6px; }
+.tao-article .scale-notes { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; font-size: 15px; color: var(--muted); margin-top: 14px; }
+.tao-article .scale-notes b { color: var(--ink); font-weight: 700; display: block; }
+
+/* --- kết & nguồn -------------------------------------------------------- */
+.tao-article .closing { padding: 72px 0 8px; }
+.tao-article .closing .big {
+  font-size: clamp(26px, 3.8vw, 42px); font-weight: 700; line-height: 1.15;
+  letter-spacing: -.02em; max-width: 22ch; margin: 0 0 20px;
+}
+.tao-article .sources {
+  margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--rule);
+  font-size: 15px; color: var(--muted);
+}
+.tao-article .sources p { font-size: 15px; color: var(--muted); margin: 0; }
+.tao-article .sources ul { padding-left: 20px; margin: 8px 0 0; }
+
+/* --- hiệu ứng ----------------------------------------------------------- */
+.tao-article .mk { opacity: 0; transition: opacity .4s ease; }
+.tao-article .mk.on { opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .tao-article .mk { transition: none !important; } }
+
+@media (max-width: 760px) {
+  .tao-article { width: 100%; margin-left: 0; transform: none; }
+  .tao-article p { font-size: 17px; }
+  .tao-article .trail { padding-left: 40px; }
+  .tao-article .trail::before { left: 10px; }
+  .tao-article .stop::before { left: -39px; width: 14px; height: 24px; }
+  .tao-article .qpair { grid-template-columns: 1fr; gap: 10px; }
+  .tao-article .friction, .tao-article .dots-wrap { grid-template-columns: 1fr; }
+  .tao-article .friction > div + div { border-left: 0; border-top: 1.5px solid var(--ink); }
+  .tao-article .scale-notes { grid-template-columns: 1fr; }
+  .tao-article .scale-bar div { font-size: 12px; }
+  .tao-article .mapbar { flex-direction: column; align-items: flex-start; }
+}

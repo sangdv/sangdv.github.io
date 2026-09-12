@@ -37,6 +37,9 @@
 
 <link rel="stylesheet" href="{{ site.BASE_PATH }}/assets/css/style.css">
 <link rel="stylesheet" href="{{ site.BASE_PATH }}/assets/css/syntax.css">
+{%- if page.stylesheet %}
+<link rel="stylesheet" href="{{ site.BASE_PATH }}{{ page.stylesheet }}">
+{%- endif %}
 
 <script>
   // Đặt chế độ sáng/tối ngay lập tức để tránh nhấp nháy khi tải trang

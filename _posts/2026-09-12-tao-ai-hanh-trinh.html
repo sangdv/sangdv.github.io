@@ -1,0 +1,335 @@
+---
+layout: post
+title: "Trực thăng và bản đồ: Terence Tao nghĩ gì về AI"
+categories: [ai]
+tags: [terence tao, tự động hoá, học tập]
+description: "Terence Tao, nhà toán học từng nhận Huy chương Fields, dùng AI hằng ngày và cũng là một trong những người cảnh báo rõ nhất về cách dùng nó. Đây là suy nghĩ của ông, kể lại ngắn gọn cho người không làm toán."
+stylesheet: /assets/css/tao-article.css
+---
+
+<div class="tao-article">
+
+<div class="mapfig">
+    <svg viewBox="0 0 900 440" role="img" aria-labelledby="mapTitle mapDesc">
+      <title id="mapTitle">Hai cách lên đỉnh núi</title>
+      <desc id="mapDesc">Bản đồ địa hình có chân núi ở góc dưới bên trái và đỉnh núi là đáp án. Trực thăng bay thẳng lên đỉnh và không để lại gì. Người leo bộ đi theo con đường vòng vèo, để lại năm cột mốc: ngõ cụt đáng nhớ, lối tắt mới, công cụ mới, chỗ dễ trượt và câu hỏi mới.</desc>
+      <g fill="none" stroke="var(--contour)" transform="rotate(-12 640 150)">
+        <ellipse cx="640" cy="150" rx="46" ry="30" stroke-width="1.6"/>
+        <ellipse cx="636" cy="156" rx="100" ry="66" stroke-width="1"/>
+        <ellipse cx="630" cy="164" rx="165" ry="108" stroke-width="1"/>
+        <ellipse cx="622" cy="174" rx="238" ry="156" stroke-width="1.6"/>
+        <ellipse cx="612" cy="186" rx="318" ry="210" stroke-width="1"/>
+        <ellipse cx="600" cy="200" rx="410" ry="270" stroke-width="1"/>
+        <ellipse cx="590" cy="214" rx="510" ry="336" stroke-width="1.6"/>
+      </g>
+      <g fill="none" stroke="var(--contour)" stroke-width="1">
+        <ellipse cx="170" cy="120" rx="44" ry="24"/>
+        <ellipse cx="170" cy="122" rx="86" ry="48"/>
+      </g>
+      <path id="trailGhost" d="M90 390 C170 402 222 350 272 366 S372 352 352 302 S420 248 472 278 S562 272 540 222 S600 172 640 150" fill="none" stroke="var(--contour)" stroke-width="2.5" stroke-dasharray="2 7" stroke-linecap="round"/>
+      <path id="trailInk" d="M90 390 C170 402 222 350 272 366 S372 352 352 302 S420 248 472 278 S562 272 540 222 S600 172 640 150" fill="none" stroke="var(--ink)" stroke-width="4" stroke-linecap="round"/>
+      <line id="heliLine" x1="90" y1="390" x2="90" y2="390" stroke="var(--cobalt)" stroke-width="3" stroke-dasharray="10 8" stroke-linecap="round"/>
+      <g id="markers"></g>
+      <g>
+        <path d="M76 398 L90 374 L104 398 Z" fill="var(--ink)"/>
+        <text x="112" y="420" font-size="15" font-weight="700" fill="var(--ink)" style="paint-order:stroke;stroke:var(--figbg);stroke-width:5px">Chân núi</text>
+      </g>
+      <g>
+        <line x1="640" y1="152" x2="640" y2="112" stroke="var(--ink)" stroke-width="3"/>
+        <path d="M640 112 L668 121 L640 130 Z" fill="var(--blaze)" stroke="var(--ink)" stroke-width="1.5"/>
+        <text x="676" y="126" font-size="16" font-weight="800" fill="var(--ink)" style="paint-order:stroke;stroke:var(--figbg);stroke-width:5px">Đáp án</text>
+      </g>
+      <circle id="walker" cx="90" cy="390" r="8" fill="var(--ink)" stroke="var(--figbg)" stroke-width="3" opacity="0"/>
+      <g id="heli" opacity="0" transform="translate(90 390)">
+        <line x1="-16" y1="-11" x2="16" y2="-11" stroke="var(--cobalt)" stroke-width="3" stroke-linecap="round"/>
+        <line x1="0" y1="-11" x2="0" y2="-6" stroke="var(--cobalt)" stroke-width="2.5"/>
+        <ellipse cx="0" cy="0" rx="12" ry="8" fill="var(--cobalt)"/>
+        <line x1="-12" y1="0" x2="-24" y2="-3" stroke="var(--cobalt)" stroke-width="3" stroke-linecap="round"/>
+      </g>
+    </svg>
+    <div class="mapbar">
+      <div class="btns">
+        <button class="btn btn-heli" id="goHeli" type="button">Đi trực thăng</button>
+        <button class="btn btn-hike" id="goHike" type="button">Leo bộ</button>
+        <button class="btn btn-reset" id="goReset" type="button">Làm lại</button>
+      </div>
+      <div class="stats" aria-live="polite">
+        <div><span>Tới đỉnh</span><b id="sTime">Chưa đi</b></div>
+        <div><span>Cột mốc để lại</span><b id="sMarks">0</b></div>
+        <div><span>Người sau đi theo được</span><b id="sMap">Chưa rõ</b></div>
+      </div>
+    </div>
+  </div>
+<p class="msg" id="msg" aria-live="polite">Thử cả hai cách lên đỉnh, rồi nhìn xem mỗi cách để lại gì trên bản đồ.</p>
+
+<div class="trail">
+
+    <section class="stop col" aria-labelledby="h-journey">
+      <h2 id="h-journey">Đích đến chỉ là một phần giá trị</h2>
+      <p>Tao ví mỗi bài toán khó như một đỉnh núi xa. Người leo bộ phải dò đường, gặp ngõ cụt, tìm lối tắt; dọc đường họ cắm cột mốc và vẽ bản đồ để người sau đi tiếp. Dùng AI để lấy thẳng đáp án giống như đi trực thăng: bạn lên tới đỉnh, nhưng bỏ lỡ mọi thứ con đường lẽ ra dạy bạn.</p>
+      <p>Vì vậy ông tách riêng hai câu hỏi mà xưa nay ta tưởng là một:</p>
+      <div class="qpair">
+        <p class="q q-ans">Đáp án là gì?<small>AI trả lời rất nhanh</small></p>
+        <span class="vs">khác với</span>
+        <p class="q q-ins">Đi tìm đáp án dạy ta điều gì?<small>Chỉ có được khi đi qua con đường</small></p>
+      </div>
+      <p>Trước đây, muốn có đáp án thì buộc phải đi qua các câu hỏi nhỏ hơn, nên hai câu hỏi luôn đi cùng nhau. Khi AI trả lời thẳng, chúng tách rời, thậm chí ngược chiều: càng chạy theo đáp án, cả cộng đồng có thể càng học được ít đi.</p>
+    </section>
+
+    <section class="stop col" aria-labelledby="h-filter">
+      <h2 id="h-filter">AI mạnh nhưng không đáng tin, nên giá trị nằm ở bộ lọc</h2>
+      <p>Theo Tao, AI hiện nay chưa thông minh theo nghĩa con người mà giống một kiểu khéo léo: nó sinh ra rất nhiều câu trả lời, phần lớn gần đúng, một số sai nhưng trông vẫn thuyết phục, và thường không cho biết mình chắc đến đâu.</p>
+      <figure>
+        <svg viewBox="0 0 680 250" role="img" aria-labelledby="fTitle fDesc">
+          <title id="fTitle">Vòi nước sạch và vòi cứu hoả</title>
+          <desc id="fDesc">Bên trái, cách làm truyền thống cho ít giọt nước nhưng sạch. Bên phải, AI xả rất nhiều giọt, lẫn cả giọt bẩn; sau khi qua bộ lọc kiểm chứng chỉ còn giọt sạch.</desc>
+          <rect x="60" y="30" width="110" height="18" rx="3" fill="var(--ink)"/>
+          <rect x="150" y="30" width="20" height="36" rx="3" fill="var(--ink)"/>
+          <circle cx="160" cy="92" r="6" fill="var(--ink)"/>
+          <circle cx="160" cy="128" r="6" fill="var(--ink)"/>
+          <circle cx="160" cy="164" r="6" fill="var(--ink)"/>
+          <text x="110" y="222" text-anchor="middle" font-size="15" font-weight="700" fill="var(--ink)">Cách cũ</text>
+          <text x="110" y="241" text-anchor="middle" font-size="14" fill="var(--muted)">ít, nhưng sạch</text>
+          <rect x="300" y="26" width="170" height="28" rx="4" fill="var(--cobalt)"/>
+          <rect x="450" y="26" width="34" height="46" rx="4" fill="var(--cobalt)"/>
+          <g>
+            <circle cx="440" cy="92" r="6" fill="var(--cobalt)"/>
+            <circle cx="466" cy="86" r="6" fill="none" stroke="var(--ink)" stroke-width="2"/>
+            <circle cx="492" cy="96" r="6" fill="var(--cobalt)"/>
+            <circle cx="518" cy="90" r="6" fill="var(--cobalt)"/>
+            <circle cx="428" cy="116" r="6" fill="none" stroke="var(--ink)" stroke-width="2"/>
+            <circle cx="454" cy="120" r="6" fill="var(--cobalt)"/>
+            <circle cx="480" cy="114" r="6" fill="var(--cobalt)"/>
+            <circle cx="506" cy="122" r="6" fill="none" stroke="var(--ink)" stroke-width="2"/>
+            <circle cx="532" cy="116" r="6" fill="var(--cobalt)"/>
+            <circle cx="416" cy="140" r="6" fill="var(--cobalt)"/>
+            <circle cx="442" cy="144" r="6" fill="none" stroke="var(--ink)" stroke-width="2"/>
+            <circle cx="468" cy="140" r="6" fill="var(--cobalt)"/>
+            <circle cx="494" cy="146" r="6" fill="var(--cobalt)"/>
+            <circle cx="520" cy="142" r="6" fill="none" stroke="var(--ink)" stroke-width="2"/>
+            <circle cx="546" cy="140" r="6" fill="var(--cobalt)"/>
+          </g>
+          <rect x="400" y="160" width="164" height="14" rx="2" fill="var(--blaze)" stroke="var(--ink)" stroke-width="1.5"/>
+          <text x="388" y="172" text-anchor="end" font-size="15" font-weight="700" fill="var(--ink)">Bộ lọc kiểm chứng</text>
+          <circle cx="446" cy="194" r="6" fill="var(--cobalt)"/>
+          <circle cx="480" cy="200" r="6" fill="var(--cobalt)"/>
+          <circle cx="514" cy="194" r="6" fill="var(--cobalt)"/>
+          <text x="482" y="228" text-anchor="middle" font-size="15" font-weight="700" fill="var(--ink)">AI</text>
+          <text x="482" y="246" text-anchor="middle" font-size="14" fill="var(--muted)">rất nhiều, phải lọc</text>
+        </svg>
+        <figcaption>Chấm đặc: đúng. Chấm rỗng: sai nhưng trông như đúng.</figcaption>
+      </figure>
+      <p>Cách làm cũ giống vòi nước sạch chảy nhỏ giọt; AI giống vòi cứu hoả xả nước chưa lọc. Toàn bộ vấn đề là xây bộ lọc. Toán học là nơi AI thành công rõ ràng nhất chính vì một chứng minh có thể được máy kiểm tra tự động.</p>
+      <div class="rule">
+        <p style="margin:0"><strong>Quy tắc của Tao:</strong> chỉ dùng AI ở chỗ bạn tự kiểm tra được. Phép thử đơn giản: nếu bạn không thể đứng trước lớp trình bày kết quả AI đưa ra và trả lời câu hỏi về nó mà không cần AI giúp, thì đừng đưa nó vào công việc của mình.</p>
+      </div>
+    </section>
+
+    <section class="stop col" aria-labelledby="h-friction">
+      <h2 id="h-friction">Giữ lại phần khó có ích</h2>
+      <p>Không phải cái khó nào cũng đáng giữ. Tao phân biệt hai loại ma sát:</p>
+      <div class="friction">
+        <div>
+          <h3>Ma sát nhân tạo: cứ giao cho máy</h3>
+          <ul>
+            <li>Tính toán dài, lặp đi lặp lại</li>
+            <li>Định dạng, dịch, soạn bản nháp</li>
+            <li>Tra cứu mà bạn tự kiểm lại được</li>
+          </ul>
+          <p class="note">Miễn là bạn kiểm tra được kết quả.</p>
+        </div>
+        <div>
+          <h3>Ma sát tự nhiên: giữ lại cho mình</h3>
+          <ul>
+            <li>Hiểu vì sao một điều là đúng</li>
+            <li>Vật lộn với chỗ khó thật sự</li>
+            <li>Tự đọc một tài liệu ở tầm của mình</li>
+          </ul>
+          <p class="note">Ngay cả để AI giải thích hộ cũng có thể lấy mất bài học.</p>
+        </div>
+      </div>
+      <p>Ông so sánh với thức ăn. Loài người đi từ thiếu ăn sang thừa ăn, và cái giá là béo phì. Tư duy cũng đang đi từ khan hiếm sang dư thừa. Rủi ro lớn nhất không phải AI sai, mà là AI đủ tốt để làm thay việc suy nghĩ. Ông nói thẳng: có những sinh viên điểm số tốt lên, trong khi năng lực thật lại kém đi.</p>
+      <p class="pull">Hãy dùng AI như tinh chất vani: một chút làm món ăn ngon hơn, nhưng không ai ăn vani thay bữa.</p>
+    </section>
+
+    <section class="stop col" aria-labelledby="h-resource">
+      <h2 id="h-resource">Bài toán hay là tài nguyên chỉ dùng được một lần</h2>
+      <p>Một bài toán mở chưa có lời giải là thứ quý: nó như ngọn hải đăng dẫn đường cho cả lĩnh vực. Một khi máy đã đào ra lời giải mà không ai hiểu vì sao, không thể quay ngược lại. Tao ví điều đó như bị kể trước đoạn kết của một bộ phim: trải nghiệm xem lần đầu mất vĩnh viễn.</p>
+      <p>Hoặc như dùng máy xúc đào cổ vật ở khu khảo cổ: lấy được báu vật, nhưng phá nát bối cảnh giúp ta hiểu nó, và phá luôn nơi thế hệ sau lẽ ra học nghề.</p>
+    </section>
+
+    <section class="stop col" aria-labelledby="h-noise">
+      <h2 id="h-noise">Mỗi người làm được nhiều hơn, cả hệ thống lại nhiễu hơn</h2>
+      <p>Tao dựng một mô hình đơn giản. Khi giải một bài mất sáu tháng và viết lại cho dễ hiểu mất thêm một tháng, gần như ai cũng chịu bỏ thêm tháng đó. Khi AI giải trong một ngày mà viết cho dễ hiểu vẫn mất ba tuần, tỉ lệ đảo ngược.</p>
+      <div class="dots-wrap">
+        <div>
+          <h3>Giải mất 6 tháng, viết rõ mất 1 tháng</h3>
+          <div class="dots" id="dotsA" aria-label="10 kết quả, 9 được viết rõ"></div>
+        </div>
+        <div>
+          <h3>AI giải trong 1 ngày, viết rõ vẫn mất 3 tuần</h3>
+          <div class="dots" id="dotsB" aria-label="100 kết quả, 10 được viết rõ"></div>
+        </div>
+      </div>
+      <div class="legend">
+        <span><i class="d f" aria-hidden="true"></i>Viết rõ, người khác học được</span>
+        <span><i class="d" aria-hidden="true"></i>Đúng về kỹ thuật, nhưng khó tiêu hoá</span>
+      </div>
+      <p style="margin-top:20px">Số kết quả được viết cẩn thận vẫn tăng, nhưng chìm giữa một đại dương kết quả đúng mà khó ai học được gì. Chính phần nhỏ được chăm chút ấy trở thành thứ quý nhất.</p>
+    </section>
+
+    <section class="stop col" aria-labelledby="h-balance">
+      <h2 id="h-balance">Tao không chống AI</h2>
+      <p>Từ năm 2023 ông đã dự báo AI sẽ thành đồng tác giả đáng tin trong nghiên cứu toán vào khoảng 2026, và thấy điều đó đến gần như đúng hẹn. Ông không nhận mình thuộc phe ủng hộ hay phe phản đối. Theo ông, mức tự động hoá tốt nhất nằm hẳn ở giữa.</p>
+      <div class="scale" role="img" aria-label="Thang tự động hoá từ 0 đến 100 phần trăm, vùng tốt nằm ở giữa">
+        <div class="scale-bar">
+          <div class="s-none"></div>
+          <div class="s-good">Vùng tốt</div>
+          <div class="s-all"></div>
+        </div>
+        <div class="scale-ends"><span>Không dùng AI</span><span>Giao hết cho AI</span></div>
+        <div class="scale-notes">
+          <div><b>Quá ít</b>Tự làm cả phần lặp lại tẻ nhạt</div>
+          <div><b>Vừa đủ</b>Máy lo phần lặp, người vẫn nắm bức tranh chung</div>
+          <div><b>Quá nhiều</b>Tới đích mà không còn ai hiểu đường</div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <section class="closing" aria-label="Kết">
+    <p class="big">Không cần cấm trực thăng. Chỉ cần nhớ sẽ có người phải đi lại con đường này.</p>
+    <p class="lede">Và rất có thể, người đó là chính bạn — vào lúc bạn cần hiểu thật sự, chứ không chỉ cần một đáp án.</p>
+  </section>
+
+  <div class="sources">
+    <p>Nội dung được diễn đạt lại bằng lời văn riêng từ nguồn sau, không phải trích dẫn nguyên văn:</p>
+    <ul>
+      <li><a href="https://teorth.github.io/tao-web/ai-views.html">Terence Tao on AI: a living summary</a> (bản cập nhật 9/9/2026)</li>
+    </ul>
+  </div>
+
+</div>
+
+<script>
+
+(function(){
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var trail = document.getElementById('trailInk');
+  var L = trail.getTotalLength();
+  trail.style.strokeDasharray = L;
+  trail.style.strokeDashoffset = L;
+  var heliLine = document.getElementById('heliLine');
+  var heli = document.getElementById('heli');
+  var walker = document.getElementById('walker');
+  var mg = document.getElementById('markers');
+  var sTime = document.getElementById('sTime'), sMarks = document.getElementById('sMarks'), sMap = document.getElementById('sMap'), msg = document.getElementById('msg');
+  var NS = 'http://www.w3.org/2000/svg';
+  var marks = [
+    {f:.17, t:'Ngõ cụt đáng nhớ', dx:0, dy:-20, a:'middle'},
+    {f:.36, t:'Lối tắt mới', dx:16, dy:24, a:'start'},
+    {f:.56, t:'Công cụ mới', dx:-16, dy:-14, a:'end'},
+    {f:.74, t:'Chỗ dễ trượt', dx:16, dy:22, a:'start'},
+    {f:.9, t:'Câu hỏi mới', dx:-16, dy:-12, a:'end'}
+  ];
+  var nodes = marks.map(function(m){
+    var p = trail.getPointAtLength(m.f * L);
+    var g = document.createElementNS(NS, 'g');
+    g.setAttribute('class', 'mk');
+    var r = document.createElementNS(NS, 'rect');
+    r.setAttribute('x', p.x - 6); r.setAttribute('y', p.y - 10);
+    r.setAttribute('width', 12); r.setAttribute('height', 20);
+    r.setAttribute('fill', 'var(--blaze)'); r.setAttribute('stroke', 'var(--ink)'); r.setAttribute('stroke-width', '1.5');
+    var tx = document.createElementNS(NS, 'text');
+    tx.setAttribute('x', p.x + m.dx); tx.setAttribute('y', p.y + m.dy);
+    tx.setAttribute('text-anchor', m.a); tx.setAttribute('font-size', '14'); tx.setAttribute('font-weight', '700');
+    tx.setAttribute('fill', 'var(--ink)');
+    tx.setAttribute('style', 'paint-order:stroke;stroke:var(--figbg);stroke-width:5px');
+    tx.textContent = m.t;
+    g.appendChild(r); g.appendChild(tx); mg.appendChild(g);
+    return g;
+  });
+  var mapSvg = trail.ownerSVGElement;
+  function fitLabels(){
+    var k = Math.max(1, Math.min(2, 900 / (mapSvg.clientWidth || 900)));
+    mapSvg.querySelectorAll('text').forEach(function(t){
+      if (!t.dataset.fs) t.dataset.fs = t.getAttribute('font-size');
+      t.setAttribute('font-size', (t.dataset.fs * k).toFixed(1));
+    });
+  }
+  fitLabels();
+  window.addEventListener('resize', fitLabels);
+  var raf = null;
+  function run(dur, step, done){
+    if (raf) cancelAnimationFrame(raf);
+    if (reduce){ step(1); done(); return; }
+    var t0 = null;
+    function frame(ts){
+      if (t0 === null) t0 = ts;
+      var t = Math.min(1, (ts - t0) / dur);
+      step(t);
+      if (t < 1) raf = requestAnimationFrame(frame); else { raf = null; done(); }
+    }
+    raf = requestAnimationFrame(frame);
+  }
+  function ease(t){ return t < .5 ? 2*t*t : 1 - Math.pow(-2*t + 2, 2) / 2; }
+  function reset(){
+    if (raf){ cancelAnimationFrame(raf); raf = null; }
+    trail.style.strokeDashoffset = L;
+    heliLine.setAttribute('x2', 90); heliLine.setAttribute('y2', 390);
+    heli.setAttribute('opacity', 0); heli.setAttribute('transform', 'translate(90 390)');
+    walker.setAttribute('opacity', 0); walker.setAttribute('cx', 90); walker.setAttribute('cy', 390);
+    nodes.forEach(function(n){ n.classList.remove('on'); });
+    sTime.textContent = 'Chưa đi'; sMarks.textContent = '0'; sMap.textContent = 'Chưa rõ';
+  }
+  document.getElementById('goReset').addEventListener('click', function(){
+    reset();
+    msg.textContent = 'Thử cả hai cách lên đỉnh, rồi nhìn xem mỗi cách để lại gì trên bản đồ.';
+  });
+  document.getElementById('goHeli').addEventListener('click', function(){
+    reset();
+    heli.setAttribute('opacity', 1);
+    sTime.textContent = 'Đang bay';
+    msg.textContent = 'Trực thăng bay thẳng lên đỉnh...';
+    run(1300, function(t){
+      var e = ease(t), x = 90 + 550 * e, y = 390 - 240 * e;
+      heliLine.setAttribute('x2', x.toFixed(1)); heliLine.setAttribute('y2', y.toFixed(1));
+      heli.setAttribute('transform', 'translate(' + x.toFixed(1) + ' ' + (y - 14).toFixed(1) + ')');
+    }, function(){
+      sTime.textContent = 'Rất nhanh'; sMarks.textContent = '0'; sMap.textContent = 'Không';
+      msg.textContent = 'Bạn đã ở trên đỉnh. Nhưng không có cột mốc nào, và không ai biết đường lên.';
+    });
+  });
+  document.getElementById('goHike').addEventListener('click', function(){
+    reset();
+    walker.setAttribute('opacity', 1);
+    sTime.textContent = 'Đang leo';
+    msg.textContent = 'Dò đường, đi vòng, cắm cột mốc...';
+    run(5200, function(t){
+      var len = L * t;
+      trail.style.strokeDashoffset = L - len;
+      var p = trail.getPointAtLength(len);
+      walker.setAttribute('cx', p.x.toFixed(1)); walker.setAttribute('cy', p.y.toFixed(1));
+      var c = 0;
+      marks.forEach(function(m, i){ if (t >= m.f){ nodes[i].classList.add('on'); c++; } });
+      sMarks.textContent = c;
+    }, function(){
+      sTime.textContent = 'Lâu hơn nhiều'; sMarks.textContent = marks.length; sMap.textContent = 'Có';
+      msg.textContent = 'Cùng một đỉnh, nhưng giờ có năm cột mốc và một con đường người sau đi theo được.';
+    });
+  });
+
+  function dots(id, total, filled){
+    var el = document.getElementById(id);
+    for (var i = 0; i < total; i++){
+      var d = document.createElement('i');
+      d.className = 'd' + (filled.indexOf(i) > -1 ? ' f' : '');
+      d.setAttribute('aria-hidden', 'true');
+      el.appendChild(d);
+    }
+  }
+  dots('dotsA', 10, [0,1,2,3,4,5,6,7,8]);
+  dots('dotsB', 100, [3,17,22,38,45,51,66,72,89,94]);
+
+})();
+</script>
